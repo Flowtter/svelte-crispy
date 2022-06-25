@@ -1,17 +1,20 @@
 <script>
     import axios from "axios";
+    import { onMount } from "svelte";
     import { API_URL } from "../../variables";
 
     export let src;
 
     // $: basename = src.split("/").pop();
-
-    axios
-        .get(API_URL + "/images/" + src.split("/").pop() + "/info")
-        .then((response) => {
-            const res = response.data;
-            enabled = res.enabled ? "enabled" : "disabled";
-        });
+    const fetch = () => {
+        axios
+            .get(API_URL + "/images/" + src.split("/").pop() + "/info")
+            .then((response) => {
+                const res = response.data;
+                enabled = res.enabled ? "enabled" : "disabled";
+            });
+    };
+    onMount(fetch);
 
     let enabled;
 
@@ -28,11 +31,11 @@
 
 <style>
     .disabled {
-        filter: brightness(50%);
+        filter: brightness(40%);
     }
     .photo {
-        width: 20vw;
-        height: 25vh;
+        width: calc(1920px / 5);
+        height: calc(1080px / 5);
         background-color: #f5a52a;
         display: flex;
         justify-content: center;
@@ -66,17 +69,17 @@
         box-sizing: border-box;
         border: none;
         border-radius: 1vh;
-        background-color: #f5a52a;
+        background-color: var(--terciary);
         outline: none;
         cursor: pointer;
         border: none;
-        color: #f0f0f0;
+        color: var(--white-text);
         margin-bottom: 0;
         font-size: large;
         /* width: 2vw !important; */
     }
     button:hover {
         transition: all 0.2s;
-        background-color: #ac7523;
+        background-color: var(--terciary-variant);
     }
 </style>

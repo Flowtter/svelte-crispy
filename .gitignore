@@ -2,3 +2,4 @@ assets/
 backend/assets/
 **/.env
 session/
+**/pycache/

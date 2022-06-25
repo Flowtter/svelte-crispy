@@ -1,6 +1,8 @@
+from typing import List
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from dotenv import load_dotenv
 
@@ -13,6 +15,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:8080",
+    "http://0.0.0.0",
+    "http://0.0.0.0:8080",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -101,9 +105,29 @@ async def get_image(filename):
 
     save_json()
 
+    return image["enabled"]
+
 
 @app.get("/reload")
 async def reload():
     new_json()
+    save_json()
+    return json_info
+
+
+class Reorder(BaseModel):
+    name: str
+
+
+@app.post("/reorder")
+async def reorder(data: List[Reorder]):
+    global json_info
+    images = json_info["images"]
+    new_images = []
+    for datum in data:
+        image = next(filter(lambda x: x["name"] == datum.name, images), None)
+        new_images.append(image)
+    json_info["images"] = new_images
+
     save_json()
     return json_info
