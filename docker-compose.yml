@@ -13,9 +13,9 @@ services:
         ports:
             - "127.0.0.1:1337:1337"
         volumes:
-            - ./assets:/my/assets
+            - ./resources:/resources
         environment:
-            - DIRECTORY_PATH=/my/assets/
+            - DIRECTORY_PATH=/resources
     frontend:
         hostname: 'frontend'
         container_name: 'frontend'

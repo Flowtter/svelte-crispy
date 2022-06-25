@@ -52,6 +52,8 @@ def new_json():
         json_info = dict()
         json_info["images"] = []
         for file in files:
+            if file.endswith(".gitkeep"):
+                continue
             info = dict()
             info["name"] = file
             info["hash"] = positive_hash(file)

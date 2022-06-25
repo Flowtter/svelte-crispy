@@ -1,5 +1,6 @@
-assets/
-backend/assets/
+resources/*/*
+!resources/*/.gitkeep
+backend/resources/
 **/.env
 session/
 **/pycache/
